@@ -1,17 +1,11 @@
-type BreadcrumbCategory =
-  | 'started'
-  | 'UIViewController'
-  | 'touch'
-  | 'message'
-  | 'ui.click'
-  | 'xhr'
-  | 'console';
+import {Color} from 'app/utils/theme';
+import {IconProps} from 'app/types/iconProps';
 
-type BreadcrumbLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
+export type BreadcrumbLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
 
 type BreadcrumbTypeBase = {
   timestamp?: string; //it's recommended
-  category?: BreadcrumbCategory;
+  category?: string;
   message?: string;
   level?: BreadcrumbLevel;
   event_id?: string;
@@ -46,16 +40,16 @@ export type BreadcrumbTypeHTTP = {
 
 export type BreadcrumbTypeDefault = {
   type:
-    | 'error'
     | 'info'
     | 'debug'
     | 'message'
-    | 'default'
     | 'query'
     | 'ui'
     | 'user'
     | 'exception'
-    | 'warning';
+    | 'warning'
+    | 'error'
+    | 'default';
   data?: {[key: string]: any};
 } & BreadcrumbTypeBase;
 
@@ -65,3 +59,10 @@ export type Breadcrumb =
   | BreadcrumbTypeDefault;
 
 export type BreadcrumbType = Breadcrumb['type'];
+
+export type BreadcrumbDetails = {
+  color?: Color;
+  borderColor?: Color;
+  icon?: React.ComponentType<IconProps>;
+  description: string;
+};

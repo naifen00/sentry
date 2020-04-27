@@ -94,6 +94,7 @@ default_manager.add("organizations:grouping-info", OrganizationFeature)  # NOQA
 default_manager.add("organizations:tweak-grouping-config", OrganizationFeature)  # NOQA
 default_manager.add("organizations:set-grouping-config", OrganizationFeature)  # NOQA
 default_manager.add("organizations:org-subdomains", OrganizationFeature)  # NOQA
+default_manager.add("organizations:breadcrumbs-v2", OrganizationFeature) # NOQA
 
 # Project scoped features
 default_manager.add("projects:custom-inbound-filters", ProjectFeature)  # NOQA
@@ -106,6 +107,7 @@ default_manager.add("projects:sample-events", ProjectFeature)  # NOQA
 default_manager.add("projects:servicehooks", ProjectFeature)  # NOQA
 default_manager.add("projects:similarity-view", ProjectFeature)  # NOQA
 default_manager.add("projects:similarity-indexing", ProjectFeature)  # NOQA
+
 
 # Project plugin features
 default_manager.add("projects:plugins", ProjectPluginFeature)  # NOQA

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import styled from '@emotion/styled';
+import {css} from '@emotion/core';
 
 import {t} from 'app/locale';
 import {callIfFunction} from 'app/utils/callIfFunction';
@@ -12,6 +13,7 @@ import space from 'app/styles/space';
 const defaultProps = {
   wrapTitle: true,
   raw: false,
+  isCentered: false,
 };
 
 type DefaultProps = Readonly<typeof defaultProps>;
@@ -66,12 +68,13 @@ class EventDataSection extends React.Component<Props> {
       raw,
       wrapTitle,
       actions,
+      isCentered,
     } = this.props;
 
     const titleNode = wrapTitle ? <h3>{title}</h3> : title;
 
     return (
-      <DataSection className={className || ''}>
+      <StyledDataSection className={className || ''} isCentered={isCentered}>
         {title && (
           <SectionHeader id={type}>
             <Permalink href={'#' + type} className="permalink">
@@ -100,7 +103,7 @@ class EventDataSection extends React.Component<Props> {
           </SectionHeader>
         )}
         <SectionContents>{children}</SectionContents>
-      </DataSection>
+      </StyledDataSection>
     );
   }
 }
@@ -116,7 +119,7 @@ const Permalink = styled('a')`
   padding: ${space(0.25)} 5px;
 `;
 
-export const SectionHeader = styled('div')`
+const SectionHeader = styled('div')`
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -156,6 +159,7 @@ export const SectionHeader = styled('div')`
   &:hover ${Permalink} {
     display: block;
   }
+
   @media (min-width: ${props => props.theme.breakpoints[2]}) {
     & > small {
       margin-left: ${space(1)};
@@ -170,6 +174,19 @@ const SectionContents = styled('div')`
 
 const ActionContainer = styled('div')`
   flex-shrink: 0;
+`;
+
+const StyledDataSection = styled(DataSection)<{isCentered?: boolean}>`
+  ${p =>
+    p.isCentered &&
+    css`
+      ${SectionHeader}, ${ActionContainer} {
+        align-items: center;
+        @media (max-width: ${p.theme.breakpoints[0]}) {
+          display: block;
+        }
+      }
+    `}
 `;
 
 export default EventDataSection;
