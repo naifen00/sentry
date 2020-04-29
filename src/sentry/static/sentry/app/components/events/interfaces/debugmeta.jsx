@@ -479,6 +479,7 @@ class DebugMetaInterface extends React.PureComponent {
         title={titleElement}
         actions={this.renderToolbar()}
         wrapTitle={false}
+        isCentered
       >
         <ClippedBox clipHeight={350}>
           <DebugImagesPanel>
