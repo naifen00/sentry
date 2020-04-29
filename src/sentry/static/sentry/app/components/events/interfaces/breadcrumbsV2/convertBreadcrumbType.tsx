@@ -1,21 +1,24 @@
-import {Breadcrumb} from '../breadcrumbs/types';
+import {Breadcrumb, BreadcrumbType} from '../breadcrumbs/types';
 
 function convertBreadcrumbType(breadcrumb: Breadcrumb): Breadcrumb {
   // special case for 'ui.' and `sentry.` category breadcrumbs
   // TODO: find a better way to customize UI around non-schema data
-  if ((!breadcrumb.type || breadcrumb.type === 'default') && breadcrumb.category) {
+  if (
+    (!breadcrumb.type || breadcrumb.type === BreadcrumbType.DEFAULT) &&
+    breadcrumb.category
+  ) {
     const [category, subcategory] = breadcrumb.category.split('.');
     if (category === 'ui') {
       return {
         ...breadcrumb,
-        type: 'ui',
+        type: BreadcrumbType.UI,
       };
     }
 
     if (category === 'console' || category === 'navigation') {
       return {
         ...breadcrumb,
-        type: 'debug',
+        type: BreadcrumbType.DEBUG,
       };
     }
 
@@ -25,7 +28,7 @@ function convertBreadcrumbType(breadcrumb: Breadcrumb): Breadcrumb {
     ) {
       return {
         ...breadcrumb,
-        type: 'exception',
+        type: BreadcrumbType.EXCEPTION,
       };
     }
   }

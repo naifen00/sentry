@@ -32,14 +32,12 @@ const BreadcrumbFilterGroup = ({groupHeaderTitle, data, onClick}: Props) => {
               isChecked={isChecked}
               onClick={handleClick(type, groupType)}
             >
-              <ListItemDescription>
-                <BreadcrumbFilterGroupIcon
-                  icon={icon}
-                  color={color}
-                  borderColor={borderColor}
-                />
-                <span>{description}</span>
-              </ListItemDescription>
+              <BreadcrumbFilterGroupIcon
+                icon={icon}
+                color={color}
+                borderColor={borderColor}
+              />
+              <ListItemDescription>{description}</ListItemDescription>
               <CheckboxFancy isChecked={isChecked} />
             </FilterGroupListItem>
           )
@@ -71,7 +69,7 @@ const FilterGroupList = styled('ul')`
 
 const FilterGroupListItem = styled('li')<{isChecked?: boolean}>`
   display: grid;
-  grid-template-columns: 1fr 16px;
+  grid-template-columns: max-content 1fr max-content;
   grid-column-gap: ${space(1)};
   align-items: center;
   padding: ${space(1)} ${space(2)};
@@ -95,9 +93,5 @@ const FilterGroupListItem = styled('li')<{isChecked?: boolean}>`
 `;
 
 const ListItemDescription = styled('div')`
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  grid-column-gap: ${space(1)};
-  align-items: center;
   font-size: ${p => p.theme.fontSizeMedium};
 `;

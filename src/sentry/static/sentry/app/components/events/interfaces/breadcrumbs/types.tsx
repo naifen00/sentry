@@ -1,7 +1,28 @@
 import {Color} from 'app/utils/theme';
 import {IconProps} from 'app/types/iconProps';
 
-export type BreadcrumbLevel = 'fatal' | 'error' | 'warning' | 'info' | 'debug';
+export enum BreadcrumbLevel {
+  FATAl = 'fatal',
+  ERROR = 'error',
+  WARNING = 'warning',
+  INFO = 'info',
+  DEBUG = 'debug',
+}
+
+export enum BreadcrumbType {
+  INFO = 'info',
+  DEBUG = 'debug',
+  MESSAGE = 'message',
+  QUERY = 'query',
+  UI = 'ui',
+  USER = 'user',
+  EXCEPTION = 'exception',
+  WARNING = 'warning',
+  ERROR = 'error',
+  DEFAULT = 'default',
+  HTTP = 'http',
+  NAVIGATION = 'navigation',
+}
 
 type BreadcrumbTypeBase = {
   timestamp?: string; //it's recommended
@@ -12,7 +33,7 @@ type BreadcrumbTypeBase = {
 };
 
 export type BreadcrumbTypeNavigation = {
-  type: 'navigation';
+  type: BreadcrumbType.NAVIGATION;
   data?: {
     to: string;
     from: string;
@@ -20,7 +41,7 @@ export type BreadcrumbTypeNavigation = {
 } & BreadcrumbTypeBase;
 
 export type BreadcrumbTypeHTTP = {
-  type: 'http';
+  type: BreadcrumbType.HTTP;
   data?: {
     url?: string;
     method?:
@@ -40,16 +61,16 @@ export type BreadcrumbTypeHTTP = {
 
 export type BreadcrumbTypeDefault = {
   type:
-    | 'info'
-    | 'debug'
-    | 'message'
-    | 'query'
-    | 'ui'
-    | 'user'
-    | 'exception'
-    | 'warning'
-    | 'error'
-    | 'default';
+    | BreadcrumbType.INFO
+    | BreadcrumbType.DEBUG
+    | BreadcrumbType.MESSAGE
+    | BreadcrumbType.QUERY
+    | BreadcrumbType.UI
+    | BreadcrumbType.USER
+    | BreadcrumbType.EXCEPTION
+    | BreadcrumbType.WARNING
+    | BreadcrumbType.ERROR
+    | BreadcrumbType.DEFAULT;
   data?: {[key: string]: any};
 } & BreadcrumbTypeBase;
 
@@ -57,8 +78,6 @@ export type Breadcrumb =
   | BreadcrumbTypeNavigation
   | BreadcrumbTypeHTTP
   | BreadcrumbTypeDefault;
-
-export type BreadcrumbType = Breadcrumb['type'];
 
 export type BreadcrumbDetails = {
   color?: Color;

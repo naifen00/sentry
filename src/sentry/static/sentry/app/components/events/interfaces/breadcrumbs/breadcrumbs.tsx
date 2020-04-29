@@ -14,7 +14,7 @@ import BreadcrumbTime from './breadcrumbTime';
 import BreadcrumbCollapsed from './breadcrumbCollapsed';
 import convertBreadcrumbType from './convertBreadcrumbType';
 import getBreadcrumbDetails from './getBreadcrumbDetails';
-import {Breadcrumb} from './types';
+import {Breadcrumb, BreadcrumbType} from './types';
 import {BreadCrumb, BreadCrumbIconWrapper} from './styles';
 
 const MAX_CRUMBS_WHEN_COLLAPSED = 10;
@@ -206,8 +206,8 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
                       data-test-id="breadcrumb"
                       key={idx}
                       hasError={
-                        convertedBreadcrumb.type === 'message' ||
-                        convertedBreadcrumb.type === 'error'
+                        convertedBreadcrumb.type === BreadcrumbType.MESSAGE ||
+                        convertedBreadcrumb.type === BreadcrumbType.ERROR
                       }
                     >
                       <BreadCrumbIconWrapper color={color} borderColor={borderColor}>

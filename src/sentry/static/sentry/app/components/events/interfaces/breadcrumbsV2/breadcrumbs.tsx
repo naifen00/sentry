@@ -13,12 +13,18 @@ import {IconProps} from 'app/types/iconProps';
 import {PlatformContextProvider} from '../breadcrumbs/platformContext';
 import BreadcrumbTime from '../breadcrumbs/breadcrumbTime';
 import BreadcrumbCollapsed from '../breadcrumbs/breadcrumbCollapsed';
-import {Breadcrumb, BreadcrumbDetails} from '../breadcrumbs/types';
+import {
+  Breadcrumb,
+  BreadcrumbDetails,
+  BreadcrumbType,
+  BreadcrumbLevel,
+} from '../breadcrumbs/types';
 import BreadcrumbFilter from './breadcrumbFilter/breadcrumbFilter';
 import convertBreadcrumbType from './convertBreadcrumbType';
 import getBreadcrumbDetails from './getBreadcrumbDetails';
 import BreadcrumbRenderer from './breadcrumbRenderer';
 import {BreadCrumb, BreadCrumbIconWrapper} from './styles';
+import {FilterGroupType} from './breadcrumbFilter/types';
 
 const MAX_CRUMBS_WHEN_COLLAPSED = 10;
 
@@ -79,7 +85,7 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
 
       if (!breadcrumbTypes.find(b => b.type === convertedBreadcrumb.type)) {
         !breadcrumbTypes.push({
-          groupType: 'type',
+          groupType: FilterGroupType.TYPE,
           type: convertedBreadcrumb.type,
           ...breadcrumbDetails,
           isChecked: true,
@@ -97,7 +103,12 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
       breadcrumbs: convertedBreadcrumbs,
       filteredBreadcrumbs: convertedBreadcrumbs,
       filteredBreadcrumbsByCustomSearch: convertedBreadcrumbs,
-      breadcrumbFilterGroups: breadcrumbTypes,
+      breadcrumbFilterGroups: breadcrumbTypes
+        // in case of a breadcrumb of type BreadcrumbType.DEFAULT, moves it to the last position of the array
+        .filter(crumbType => crumbType.type !== BreadcrumbType.DEFAULT)
+        .concat(
+          breadcrumbTypes.filter(crumbType => crumbType.type === BreadcrumbType.DEFAULT)
+        ),
     });
   };
 
@@ -115,7 +126,9 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
   getVirtualCrumb = (): Breadcrumb | undefined => {
     const {event} = this.props;
 
-    const exception = event.entries.find(entry => entry.type === 'exception');
+    const exception = event.entries.find(
+      entry => entry.type === BreadcrumbType.EXCEPTION
+    );
 
     if (!exception && !event.message) {
       return undefined;
@@ -124,8 +137,8 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
     if (exception) {
       const {type, value, module: mdl} = exception.data.values[0];
       return {
-        type: 'exception',
-        level: 'error',
+        type: BreadcrumbType.EXCEPTION,
+        level: BreadcrumbLevel.ERROR,
         category: this.moduleToCategory(mdl) || 'exception',
         data: {
           type,
@@ -138,8 +151,8 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
     const levelTag = (event.tags || []).find(tag => tag.key === 'level');
 
     return {
-      type: 'message',
-      level: levelTag?.value as Breadcrumb['level'],
+      type: BreadcrumbType.MESSAGE,
+      level: levelTag?.value as BreadcrumbLevel,
       category: 'message',
       message: event.message,
       timestamp: event.dateCreated,
@@ -279,7 +292,10 @@ class BreadcrumbsContainer extends React.Component<Props, State> {
                       <BreadCrumb
                         data-test-id="breadcrumb"
                         key={idx}
-                        hasError={crumb.type === 'message' || crumb.type === 'exception'}
+                        hasError={
+                          crumb.type === BreadcrumbType.MESSAGE ||
+                          crumb.type === BreadcrumbType.EXCEPTION
+                        }
                       >
                         <BreadCrumbIconWrapper color={color} borderColor={borderColor}>
                           <Icon />

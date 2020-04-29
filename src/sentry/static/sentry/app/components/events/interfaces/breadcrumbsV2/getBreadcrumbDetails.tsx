@@ -1,37 +1,40 @@
-import {IconInfo} from 'app/icons/iconInfo';
-import {IconWarning} from 'app/icons/iconWarning';
-import {IconLocation} from 'app/icons/iconLocation';
-import {IconUser} from 'app/icons/iconUser';
-import {IconRefresh} from 'app/icons/iconRefresh';
+import {
+  IconInfo,
+  IconWarning,
+  IconLocation,
+  IconUser,
+  IconRefresh,
+  IconTerminal,
+} from 'app/icons';
 import {t} from 'app/locale';
 
 import {BreadcrumbType, BreadcrumbDetails} from '../breadcrumbs/types';
 
 function getBreadcrumbDetails(breadcrumbType: BreadcrumbType): BreadcrumbDetails {
   switch (breadcrumbType) {
-    case 'user':
-    case 'ui': {
+    case BreadcrumbType.USER:
+    case BreadcrumbType.UI: {
       return {
         color: 'purple',
         icon: IconUser,
         description: t('User Action'),
       };
     }
-    case 'navigation': {
+    case BreadcrumbType.NAVIGATION: {
       return {
         color: 'blue',
         icon: IconLocation,
         description: t('Navigation'),
       };
     }
-    case 'info': {
+    case BreadcrumbType.INFO: {
       return {
         color: 'blue',
         icon: IconInfo,
         description: t('Info'),
       };
     }
-    case 'warning': {
+    case BreadcrumbType.WARNING: {
       return {
         color: 'yellowOrange',
         borderColor: 'yellowOrangeDark',
@@ -39,15 +42,21 @@ function getBreadcrumbDetails(breadcrumbType: BreadcrumbType): BreadcrumbDetails
         description: t('Warning'),
       };
     }
-    case 'exception':
-    case 'message': {
+    case BreadcrumbType.DEBUG: {
+      return {
+        icon: IconTerminal,
+        description: t('Debug'),
+      };
+    }
+    case BreadcrumbType.EXCEPTION:
+    case BreadcrumbType.MESSAGE: {
       return {
         color: 'red',
         icon: IconWarning,
         description: t('Error'),
       };
     }
-    case 'http': {
+    case BreadcrumbType.HTTP: {
       return {
         color: 'green',
         icon: IconRefresh,

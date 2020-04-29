@@ -109,7 +109,7 @@ class BreadcrumbFilter extends React.Component<Props, State> {
     const {filterGroups, checkedOptionsQuantity} = this.state;
 
     const hasFilterGroupsGroupTypeLevel = filterGroups.find(
-      filterGroup => filterGroup.groupType === 'level'
+      filterGroup => filterGroup.groupType === FilterGroupType.LEVEl
     );
 
     return (
@@ -124,14 +124,16 @@ class BreadcrumbFilter extends React.Component<Props, State> {
             <BreadcrumbFilterGroup
               groupHeaderTitle={t('Type')}
               onClick={this.handleClickItem}
-              data={filterGroups.filter(filterGroup => filterGroup.groupType === 'type')}
+              data={filterGroups.filter(
+                filterGroup => filterGroup.groupType === FilterGroupType.TYPE
+              )}
             />
             {hasFilterGroupsGroupTypeLevel && (
               <BreadcrumbFilterGroup
                 groupHeaderTitle={t('Level')}
                 onClick={this.handleClickItem}
                 data={filterGroups.filter(
-                  filterGroup => filterGroup.groupType === 'level'
+                  filterGroup => filterGroup.groupType === FilterGroupType.LEVEl
                 )}
               />
             )}
